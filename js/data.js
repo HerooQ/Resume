@@ -15,10 +15,11 @@ window.SITE = {
   roles: [
     "scalable REST APIs",
     "full-stack web platforms",
-    "Android apps in Kotlin",
+    "Mobile apps",
     "RAG & LLM-powered features",
     "CI/CD pipelines that just work",
-    "modern replacements for legacy systems"
+    "modern replacements for legacy systems",
+    "AI integrations"
   ],
 
   projects: [
@@ -42,7 +43,7 @@ window.SITE = {
       accent: ["#0f766e", "#6ee7b7"]
     },
     {
-      title: "GTICS Social Hub",
+      title: "GTICS Website",
       tagline: "Social media integration platform",
       description: "Aggregates and displays content from multiple third-party social APIs into a single, unified experience.",
       stack: ["REST APIs", "OAuth", "Integrations"],
@@ -63,7 +64,7 @@ window.SITE = {
       title: "Android eLearning App + CMS",
       tagline: "Mobile learning & content management",
       description: "Led development of an Android eLearning platform and its supporting CMS at Hawk Mobile, backed by Laravel/PHP REST APIs and CI/CD pipelines.",
-      stack: ["Kotlin", "Android", "Laravel", "PHP", "CI/CD"],
+      stack: ["Java", "Android", "Laravel", "PHP", "CI/CD"],
       category: "Mobile",
       year: "2025",
       featured: true,
@@ -75,7 +76,7 @@ window.SITE = {
       description: "Contributed to RAG pipelines that bring data retrieval and contextual generation into existing production systems.",
       stack: ["LLM", "RAG", "Python", "APIs"],
       category: "AI",
-      year: "2025",
+      year: "2021",
       featured: true,
       accent: ["#0d9488", "#a7f3d0"]
     },
@@ -106,20 +107,11 @@ window.SITE = {
       year: "2021–24",
       accent: ["#14532d", "#d4a373"]
     },
-    {
-      title: "Award-winning Graphics Project",
-      tagline: "Highest Graphics Project Award",
-      description: "A solo capstone that beat larger teams and set a record 96% mark in the Advanced Diploma graphics module.",
-      stack: ["Graphics", "Machine Learning", "Python"],
-      category: "AI",
-      year: "2024",
-      accent: ["#115e59", "#bef264"]
-    }
   ],
 
   experience: [
     {
-      date: "Feb 2026 — Present",
+      date: "Feb 2026 - Present",
       role: "Facilitator & Software Developer",
       company: "World Wide Industrial & Systems Engineers",
       place: "Johannesburg, Gauteng",
@@ -132,7 +124,7 @@ window.SITE = {
       tags: ["Leadership", "AWS", "Azure", "APIs", "Training"]
     },
     {
-      date: "Aug 2025 — Dec 2025",
+      date: "Aug 2025 - Dec 2025",
       role: "Senior Software Developer",
       company: "Hawk Mobile",
       place: "Durban, KwaZulu-Natal",
@@ -142,7 +134,7 @@ window.SITE = {
         "Led an Android eLearning platform and supporting CMS; shipped API solutions for operational, financial and analytics workflows.",
         "Contributed to RAG/LLM pipelines and AI-enabled apps, and drove engineering best practices across projects."
       ],
-      tags: ["Laravel", "Kotlin", "CI/CD", "RAG", "Architecture"]
+      tags: ["Laravel", "Java", "CI/CD", "RAG", "Architecture"]
     },
     {
       date: "Jan 2025 — Jul 2025",
@@ -187,13 +179,13 @@ window.SITE = {
     { name: "Cloud & DevOps", icon: "☁", span: 1, items: ["Azure", "AWS", "CI/CD", "Linux", "Git"] },
     { name: "Databases", icon: "◍", span: 1, items: ["MS SQL Server", "MySQL", "SQLite"] },
     { name: "AI & Data", icon: "✦", span: 2, items: ["RAG", "LLM Integration", "Machine Learning", "Deep Learning", "TensorFlow"] },
-    { name: "Mobile", icon: "▯", span: 1, items: ["Android", "Kotlin", "Android Studio"] },
+    { name: "Mobile", icon: "▯", span: 1, items: ["Android", "Java", "Android Studio"] },
     { name: "Other", icon: "◈", span: 1, items: ["REST APIs", "API Integration", "Cybersecurity", "System Integration"] }
   ],
 
   // Each group becomes a main branch of the competency tree; each item a twig.
   competencies: [
-    { group: "Front & Mobile", items: ["Web Application Development", "Full-Stack Development", "React", "Android / Kotlin"] },
+    { group: "Front & Mobile", items: ["Web Application Development", "Full-Stack Development", "React", "Android / Java"] },
     { group: "Backend & APIs", items: ["Software Architecture", "RESTful API Design & Integration", "Laravel / PHP", "ASP.NET Core", "Database Design & Optimization"] },
     { group: "Cloud & DevOps", items: ["CI/CD & DevOps", "Cloud Computing", "System Integration", "Performance Optimization"] },
     { group: "AI", items: ["AI / LLM Integration", "RAG Pipelines"] },
