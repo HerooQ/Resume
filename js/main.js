@@ -5,39 +5,51 @@
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-  /* ---------- Theme ---------- */
-  const root = document.documentElement;
-  try { const t = localStorage.getItem("theme"); if (t) root.dataset.theme = t; } catch {}
-  const setTheme = (t) => { root.dataset.theme = t; try { localStorage.setItem("theme", t); } catch {} };
-  const toggleTheme = () => setTheme(root.dataset.theme === "dark" ? "light" : "dark");
-  $("#themeBtn").addEventListener("click", toggleTheme);
-
   /* ---------- Toast ---------- */
   const toast = $("#toast");
   let toastT;
   const say = (msg) => { toast.textContent = msg; toast.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove("show"), 2200); };
 
-  /* ---------- Render: projects ---------- */
-  const cats = ["All", ...new Set(S.projects.map((p) => p.category))];
-  $("#filters").innerHTML = cats.map((c, i) => `<button class="filter${i ? "" : " active"}" data-cat="${esc(c)}" role="tab">${esc(c)}</button>`).join("");
-  $("#projectGrid").innerHTML = S.projects.map((p, i) => {
-    const links = p.links ? `<div class="proj-links">${p.links.live ? `<a href="${esc(p.links.live)}" target="_blank" rel="noopener">Live ↗</a>` : ""}${p.links.repo ? `<a href="${esc(p.links.repo)}" target="_blank" rel="noopener">Code ↗</a>` : ""}</div>` : "";
-    return `<article class="project reveal${p.featured ? " featured" : ""}" data-cat="${esc(p.category)}" style="--d:${(i % 3) * .08}s">
-      <div class="proj-art" style="--a:${p.accent[0]};--b:${p.accent[1]}" data-glyph="${esc(p.title[0])}">
-        <span class="proj-cat">${esc(p.category)}</span>${p.featured ? '<span class="proj-star">★ FEATURED</span>' : ""}
-      </div>
-      <div class="proj-body">
-        <div class="proj-meta"><span>${esc(p.tagline)}</span><span>${esc(p.year)}</span></div>
-        <h3>${esc(p.title)}</h3><p>${esc(p.description)}</p>
-        <ul class="stack">${p.stack.map((s) => `<li>${esc(s)}</li>`).join("")}</ul>${links}
-      </div></article>`;
-  }).join("");
+  /* ---------- Theme: starts light; switching detonates from the button ---------- */
+  const root = document.documentElement;
+  let netColor = null; // cached accent for the canvas, reset whenever the theme changes
+  const setTheme = (t) => { root.dataset.theme = t; netColor = null; };
 
-  $("#filters").addEventListener("click", (e) => {
-    const b = e.target.closest(".filter"); if (!b) return;
-    $$(".filter").forEach((f) => f.classList.toggle("active", f === b));
-    $$(".project").forEach((p) => p.classList.toggle("hide", b.dataset.cat !== "All" && p.dataset.cat !== b.dataset.cat));
-  });
+  const burst = (x, y) => {
+    const el = document.createElement("div");
+    el.className = "burst";
+    el.style.setProperty("--x", x + "px"); el.style.setProperty("--y", y + "px");
+    const n = 34, reach = Math.max(innerWidth, innerHeight) * 0.55;
+    el.innerHTML = '<i class="shock"></i><i class="shock s2"></i><i class="flash"></i>' + Array.from({ length: n }, (_, i) => {
+      const a = (i / n) * 6.283 + Math.random() * 0.4, d = 140 + Math.random() * reach;
+      return `<b style="--dx:${Math.cos(a) * d}px;--dy:${Math.sin(a) * d}px;--r:${Math.random() * 720 - 360}deg;--s:${0.6 + Math.random() * 1.4};--dl:${Math.random() * 0.12}s"></b>`;
+    }).join("");
+    return el;
+  };
+
+  let switching = false;
+  const toggleTheme = (ev) => {
+    if (switching) return;
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    const r = $("#themeBtn").getBoundingClientRect();
+    const x = ev && ev.clientX ? ev.clientX : r.left + r.width / 2, y = ev && ev.clientY ? ev.clientY : r.top + r.height / 2;
+    if (reduced) { setTheme(next); return; }
+    switching = true;
+    const end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    const b = burst(x, y);
+    if (!document.startViewTransition) { // no View Transitions: swap instantly, still explode
+      document.body.appendChild(b); setTheme(next);
+      setTimeout(() => { b.remove(); switching = false; }, 1500);
+      return;
+    }
+    const vt = document.startViewTransition(() => { setTheme(next); document.body.appendChild(b); });
+    vt.ready.then(() => root.animate(
+      { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${end}px at ${x}px ${y}px)`] },
+      { duration: 1100, easing: "cubic-bezier(.16,.84,.3,1)", pseudoElement: "::view-transition-new(root)" }
+    )).catch(() => {});
+    vt.finished.finally(() => { b.remove(); switching = false; });
+  };
+  $("#themeBtn").addEventListener("click", toggleTheme);
 
   /* ---------- Render: experience, skills, certs ---------- */
   $("#timeline").innerHTML = S.experience.map((j) => `<article class="job reveal">
@@ -51,7 +63,6 @@
   $("#bento").innerHTML = S.skills.map((s, i) => `<div class="card reveal" style="--span:${s.span};--d:${(i % 4) * .07}s">
     <h3><span class="ico">${esc(s.icon)}</span>${esc(s.name)}</h3>
     <ul class="pills">${s.items.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("");
-  $("#competencies").innerHTML = S.competencies.map((c) => `<span>${esc(c)}</span>`).join("");
   $("#certs").innerHTML = S.certifications.map((c) => `<div class="cert"><i>✓</i><span>${esc(c)}</span></div>`).join("");
   $("#year").textContent = new Date().getFullYear();
 
@@ -111,70 +122,54 @@
 
   /* ---------- Card spotlight + 3D tilt + magnetic buttons ---------- */
   document.addEventListener("pointermove", (e) => {
-    const card = e.target.closest(".project, .bento .card");
+    const card = e.target.closest(".bento .card");
     if (card) { const r = card.getBoundingClientRect(); card.style.setProperty("--mx", e.clientX - r.left + "px"); card.style.setProperty("--my", e.clientY - r.top + "px"); }
   }, { passive: true });
   if (!reduced && matchMedia("(hover: hover)").matches) {
-    const tilt = (el, max) => {
-      el.addEventListener("pointermove", (e) => { const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; el.style.transform = `perspective(900px) rotateX(${-y * max}deg) rotateY(${x * max}deg) translateZ(0)`; });
+    $$(".tilt").forEach((el) => {
+      el.addEventListener("pointermove", (e) => { const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; el.style.transform = `perspective(900px) rotateX(${-y * 10}deg) rotateY(${x * 10}deg)`; });
       el.addEventListener("pointerleave", () => { el.style.transform = ""; });
-    };
-    $$(".project").forEach((p) => tilt(p, 6)); $$(".tilt").forEach((p) => tilt(p, 10));
+    });
     $$(".magnetic").forEach((b) => {
       b.addEventListener("pointermove", (e) => { const r = b.getBoundingClientRect(); b.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * .22}px, ${(e.clientY - r.top - r.height / 2) * .35}px)`; });
       b.addEventListener("pointerleave", () => { b.style.transform = ""; });
     });
   }
 
-  /* ---------- Hero particle network ---------- */
+  /* ---------- Network canvas: fixed behind the whole page ---------- */
   const cv = $("#network"), ctx = cv.getContext("2d");
-  let W, H, pts = [], mouse = { x: -999, y: -999 }, running = true;
-  const color = () => getComputedStyle(root).getPropertyValue("--accent").trim() || "#00e5b0";
+  let W, H, pts = [], mouse = { x: -999, y: -999 }, hidden = document.hidden;
+  const accent = () => netColor || (netColor = getComputedStyle(root).getPropertyValue("--net").trim() || "#2f8f4e");
   const size = () => {
-    const dpr = Math.min(devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight;
+    const dpr = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
     cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.min(110, Math.floor((W * H) / 14000));
+    const n = Math.min(120, Math.floor((W * H) / 13000));
     pts = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35 }));
   };
   addEventListener("resize", size); size();
-  cv.parentElement.addEventListener("pointermove", (e) => { const r = cv.getBoundingClientRect(); mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; });
-  cv.parentElement.addEventListener("pointerleave", () => { mouse.x = mouse.y = -999; });
-  new IntersectionObserver(([e]) => { running = e.isIntersecting; if (running) draw(); }).observe(cv);
+  addEventListener("pointermove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  document.addEventListener("pointerleave", () => { mouse.x = mouse.y = -999; });
+  document.addEventListener("visibilitychange", () => { hidden = document.hidden; if (!hidden) draw(); });
   function draw() {
-    if (!running) return;
+    if (hidden) return;
     ctx.clearRect(0, 0, W, H);
-    const col = color();
-    ctx.fillStyle = col;
+    const col = accent();
+    ctx.fillStyle = col; ctx.strokeStyle = col;
     for (const p of pts) {
       if (!reduced) { p.x += p.vx; p.y += p.vy; }
       if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1;
       const dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.hypot(dx, dy);
       if (d < 140 && d > 0) { p.x += (dx / d) * 1.6; p.y += (dy / d) * 1.6; }
-      ctx.globalAlpha = .7; ctx.beginPath(); ctx.arc(p.x, p.y, 1.6, 0, 6.283); ctx.fill();
+      ctx.globalAlpha = .7; ctx.beginPath(); ctx.arc(p.x, p.y, 1.7, 0, 6.283); ctx.fill();
     }
-    ctx.strokeStyle = col;
     for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
       const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y);
-      if (d < 130) { ctx.globalAlpha = (1 - d / 130) * .3; ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y); ctx.stroke(); }
+      if (d < 135) { ctx.globalAlpha = (1 - d / 135) * .32; ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y); ctx.stroke(); }
     }
     for (const p of pts) { const d = Math.hypot(p.x - mouse.x, p.y - mouse.y); if (d < 170) { ctx.globalAlpha = (1 - d / 170) * .6; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke(); } }
     if (!reduced) requestAnimationFrame(draw);
   }
   draw();
-
-  /* ---------- GitHub repos (live) ---------- */
-  const langColors = { JavaScript: "#f1e05a", TypeScript: "#3178c6", Python: "#3572A5", PHP: "#4F5D95", Java: "#b07219", Kotlin: "#A97BFF", "C#": "#178600", HTML: "#e34c26", CSS: "#563d7c" };
-  const repoGrid = $("#repoGrid");
-  fetch(`https://api.github.com/users/${S.githubUser}/repos?per_page=100&sort=pushed`)
-    .then((r) => { if (!r.ok) throw 0; return r.json(); })
-    .then((repos) => {
-      const list = repos.filter((r) => !r.fork).sort((a, b) => b.stargazers_count - a.stargazers_count || new Date(b.pushed_at) - new Date(a.pushed_at)).slice(0, 6);
-      if (!list.length) { repoGrid.innerHTML = '<p class="muted">No public repositories yet — check back soon.</p>'; return; }
-      repoGrid.innerHTML = list.map((r) => `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">
-        <b>${esc(r.name)}</b><p>${esc(r.description || "No description provided.")}</p>
-        <div class="meta">${r.language ? `<span><i class="lang-dot" style="background:${langColors[r.language] || "var(--accent-2)"}"></i>${esc(r.language)}</span>` : ""}<span>★ ${r.stargazers_count}</span><span>⑂ ${r.forks_count}</span></div></a>`).join("");
-    })
-    .catch(() => { repoGrid.innerHTML = `<p class="muted">Couldn't load repositories right now. <a href="https://github.com/${esc(S.githubUser)}" target="_blank" rel="noopener" style="color:var(--accent)">View them on GitHub →</a></p>`; });
 
   /* ---------- Contact: copy email ---------- */
   const copyEmail = () => (navigator.clipboard ? navigator.clipboard.writeText(S.email) : Promise.reject()).then(() => say("Email copied ✓"), () => say(S.email));
@@ -184,9 +179,9 @@
   const pal = $("#palette"), inp = $("#paletteInput"), list = $("#paletteList");
   const go = (id) => () => { const el = $(id); el && el.scrollIntoView({ behavior: reduced ? "auto" : "smooth" }); };
   const cmds = [
-    ...[["About", "#about"], ["Projects", "#projects"], ["Experience", "#experience"], ["Skills", "#skills"], ["Education", "#education"], ["Contact", "#contact"]].map(([n, id]) => ({ n: "Go to " + n, k: "section", run: go(id) })),
+    ...[["About", "#about"], ["Projects", "#projects"], ["Experience", "#experience"], ["Skills", "#skills"], ["Competency tree", "#competencyTree"], ["Education", "#education"], ["Contact", "#contact"]].map(([n, id]) => ({ n: "Go to " + n, k: "section", run: go(id) })),
     ...S.projects.map((p) => ({ n: p.title, k: "project", run: go("#projects") })),
-    { n: "Toggle light / dark theme", k: "action", run: toggleTheme },
+    { n: "Toggle light / dark theme", k: "action", run: () => toggleTheme() },
     { n: "Copy email address", k: "action", run: copyEmail },
     { n: "Download résumé", k: "action", run: () => { const a = document.createElement("a"); a.href = "assets/Qhawe-Moyo-CV.pdf"; a.download = ""; a.click(); } },
     { n: "Open GitHub", k: "link", run: () => open("https://github.com/" + S.githubUser, "_blank", "noopener") },

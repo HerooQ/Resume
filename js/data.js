@@ -2,7 +2,7 @@
    All site content lives here. Edit this file to add projects,
    jobs, skills or certifications — no HTML changes needed.
 
-   Project fields:
+   Project fields (these become the prints in the Projects darkroom):
      title, tagline, description, stack[], category, year, featured
      links: { live: "https://…", repo: "https://github.com/…" }  (optional)
      accent: [colorA, colorB]  — gradient used for the card art
@@ -30,7 +30,7 @@ window.SITE = {
       category: "Web",
       year: "2026",
       featured: true,
-      accent: ["#00e5b0", "#0a84ff"]
+      accent: ["#1f9d55", "#a3e635"]
     },
     {
       title: "Cloud Cert Prep Platform",
@@ -39,7 +39,7 @@ window.SITE = {
       stack: ["Web", "Assessments", "AWS", "Azure"],
       category: "Web",
       year: "2026",
-      accent: ["#ff9f0a", "#ff375f"]
+      accent: ["#0f766e", "#6ee7b7"]
     },
     {
       title: "GTICS Social Hub",
@@ -48,7 +48,7 @@ window.SITE = {
       stack: ["REST APIs", "OAuth", "Integrations"],
       category: "Integration",
       year: "2026",
-      accent: ["#bf5af2", "#0a84ff"]
+      accent: ["#3f6212", "#bef264"]
     },
     {
       title: "LMS Testing & Expansion",
@@ -57,7 +57,7 @@ window.SITE = {
       stack: ["Web", "QA", "LMS"],
       category: "Web",
       year: "2026",
-      accent: ["#30d158", "#00e5b0"]
+      accent: ["#15803d", "#4ade80"]
     },
     {
       title: "Android eLearning App + CMS",
@@ -67,7 +67,7 @@ window.SITE = {
       category: "Mobile",
       year: "2025",
       featured: true,
-      accent: ["#30d158", "#0a84ff"]
+      accent: ["#166534", "#d9a441"]
     },
     {
       title: "RAG / LLM Pipelines",
@@ -77,7 +77,7 @@ window.SITE = {
       category: "AI",
       year: "2025",
       featured: true,
-      accent: ["#bf5af2", "#ff375f"]
+      accent: ["#0d9488", "#a7f3d0"]
     },
     {
       title: "Operational, Finance & Analytics APIs",
@@ -86,7 +86,7 @@ window.SITE = {
       stack: ["Laravel", "REST", "SQL", "Optimization"],
       category: "Backend",
       year: "2025",
-      accent: ["#0a84ff", "#5e5ce6"]
+      accent: ["#4d7c0f", "#84cc16"]
     },
     {
       title: "Legacy Modernization",
@@ -95,7 +95,7 @@ window.SITE = {
       stack: ["PHP", "Refactoring", "CI/CD", "Git"],
       category: "Backend",
       year: "2025",
-      accent: ["#ff9f0a", "#ffd60a"]
+      accent: ["#78350f", "#a3b18a"]
     },
     {
       title: "Security Hardening",
@@ -104,7 +104,7 @@ window.SITE = {
       stack: ["Cybersecurity", "Encryption", "Networking"],
       category: "Security",
       year: "2021–24",
-      accent: ["#ff375f", "#ff9f0a"]
+      accent: ["#14532d", "#d4a373"]
     },
     {
       title: "Award-winning Graphics Project",
@@ -113,7 +113,7 @@ window.SITE = {
       stack: ["Graphics", "Machine Learning", "Python"],
       category: "AI",
       year: "2024",
-      accent: ["#64d2ff", "#bf5af2"]
+      accent: ["#115e59", "#bef264"]
     }
   ],
 
@@ -191,11 +191,13 @@ window.SITE = {
     { name: "Other", icon: "◈", span: 1, items: ["REST APIs", "API Integration", "Cybersecurity", "System Integration"] }
   ],
 
+  // Each group becomes a main branch of the competency tree; each item a twig.
   competencies: [
-    "Web Application Development", "Full-Stack Development", "Software Architecture", "RESTful API Design & Integration",
-    "Laravel / PHP", "ASP.NET Core", "React", "Android / Kotlin", "CI/CD & DevOps", "Cloud Computing",
-    "AI / LLM Integration", "RAG Pipelines", "Database Design & Optimization", "System Integration",
-    "Legacy Modernization", "Performance Optimization", "Code Review & Mentorship", "Agile Development"
+    { group: "Front & Mobile", items: ["Web Application Development", "Full-Stack Development", "React", "Android / Kotlin"] },
+    { group: "Backend & APIs", items: ["Software Architecture", "RESTful API Design & Integration", "Laravel / PHP", "ASP.NET Core", "Database Design & Optimization"] },
+    { group: "Cloud & DevOps", items: ["CI/CD & DevOps", "Cloud Computing", "System Integration", "Performance Optimization"] },
+    { group: "AI", items: ["AI / LLM Integration", "RAG Pipelines"] },
+    { group: "Craft & Leadership", items: ["Legacy Modernization", "Code Review & Mentorship", "Agile Development"] }
   ],
 
   certifications: [

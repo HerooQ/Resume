@@ -1,24 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="utf-8">
   <title>Qhawe Moyo — Senior Software Developer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Qhawe Moyo — Senior Software Developer with 6+ years building web, mobile and backend systems, REST APIs, CI/CD and AI/LLM solutions including RAG pipelines.">
-  <meta name="theme-color" content="#07080f">
+  <meta name="theme-color" content="#f3f1e7">
   <meta property="og:title" content="Qhawe Moyo — Senior Software Developer">
   <meta property="og:description" content="Web, mobile, backend and AI/LLM engineering. Portfolio, projects and experience.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307080f'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='30' font-weight='700' text-anchor='middle' fill='%2300e5b0'%3EQM%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23f3f1e7'/%3E%3Ctext x='32' y='43' font-family='monospace' font-size='30' font-weight='700' text-anchor='middle' fill='%232f8f4e'%3EQM%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="progress" id="progress"></div>
   <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
   <div class="noise" aria-hidden="true"></div>
+  <canvas id="network" aria-hidden="true"></canvas>
 
   <!-- NAV -->
   <header class="nav" id="nav">
@@ -44,7 +45,7 @@
   <main id="top">
     <!-- HERO -->
     <section class="hero">
-      <canvas id="network" aria-hidden="true"></canvas>
+      <span class="blob b1" aria-hidden="true"></span><span class="blob b2" aria-hidden="true"></span>
       <div class="hero-inner">
         <p class="eyebrow reveal"><span class="dot"></span> Available for new opportunities</p>
         <h1 class="hero-title reveal">
@@ -73,13 +74,22 @@
       <div class="section-head reveal"><span class="idx">01</span><h2>About</h2><i></i></div>
       <div class="about-grid">
         <div class="about-photo reveal">
-          <div class="photo-frame tilt">
-            <img src="img/Main.jpg" alt="Portrait of Qhawe Moyo" onerror="this.remove()">
-            <div class="photo-fallback" aria-hidden="true">QM</div>
+          <div class="profile tilt" aria-label="Profile summary">
+            <div class="profile-bar"><i></i><i></i><i></i><span>profile.json</span></div>
+<pre><code>{
+  <span class="k">"name"</span>: <span class="s">"Qhawe Moyo"</span>,
+  <span class="k">"role"</span>: <span class="s">"Senior Software Developer"</span>,
+  <span class="k">"based"</span>: <span class="s">"Johannesburg, ZA"</span>,
+  <span class="k">"experience"</span>: <span class="n">6</span>,
+  <span class="k">"focus"</span>: [<span class="s">"APIs"</span>, <span class="s">"Android"</span>,
+            <span class="s">"AI / RAG"</span>],
+  <span class="k">"stack"</span>: [<span class="s">"Laravel"</span>, <span class="s">"ASP.NET"</span>,
+            <span class="s">"React"</span>, <span class="s">"Kotlin"</span>],
+  <span class="k">"speaks"</span>: [<span class="s">"English"</span>, <span class="s">"isiZulu"</span>,
+            <span class="s">"isiXhosa"</span>, <span class="s">"Afrikaans"</span>],
+  <span class="k">"openToWork"</span>: <span class="n">true</span>
+}</code></pre>
           </div>
-          <div class="chip-float c1">Laravel</div>
-          <div class="chip-float c2">Kotlin</div>
-          <div class="chip-float c3">RAG</div>
         </div>
         <div class="about-text reveal">
           <h3>Engineer who ships, mentors and modernizes.</h3>
@@ -104,17 +114,8 @@
     <!-- PROJECTS -->
     <section id="projects" class="section">
       <div class="section-head reveal"><span class="idx">02</span><h2>Projects</h2><i></i></div>
-      <p class="section-lead reveal">A selection of things I've designed and built. Hover or tap a card to peek inside.</p>
-      <div class="filters reveal" id="filters" role="tablist" aria-label="Filter projects"></div>
-      <div class="project-grid" id="projectGrid"></div>
-
-      <div class="github reveal">
-        <div class="github-head">
-          <h3><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .5a11.5 11.5 0 00-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 015.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0012 .5z"/></svg> Live from GitHub</h3>
-          <a href="https://github.com/HerooQ" target="_blank" rel="noopener">github.com/HerooQ →</a>
-        </div>
-        <div class="repo-grid" id="repoGrid"><p class="muted">Loading repositories…</p></div>
-      </div>
+      <p class="section-lead reveal">A selection of things I've designed and built, plus anything public on <a href="https://github.com/HerooQ" target="_blank" rel="noopener">GitHub</a>. Scroll to develop them.</p>
+      <div id="darkroomHost"></div>
     </section>
 
     <!-- EXPERIENCE -->
@@ -130,9 +131,10 @@
         <div class="marquee-track" id="marquee"></div>
       </div>
       <div class="bento" id="bento"></div>
-      <div class="competencies reveal">
-        <h3>Core competencies</h3>
-        <div class="tag-cloud" id="competencies"></div>
+      <div class="competencies">
+        <h3 class="reveal">Core competencies</h3>
+        <p class="muted reveal">Six years of roots, five main branches. Hover a twig.</p>
+        <div class="tree" id="competencyTree"></div>
       </div>
     </section>
 
@@ -201,6 +203,8 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script src="js/data.js"></script>
+  <script src="js/tree.js"></script>
+  <script src="js/darkroom.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
