@@ -39,15 +39,18 @@ window.SITE = {
       stack: ["REST APIs", "OAuth", "Integrations"],
       category: "Integration",
       year: "2026",
+      links: {live: "https://www.gtics.co.za/"},
       accent: ["#3f6212", "#bef264"]
     },
     {
-      title: "LMS Testing & Expansion",
+      title: "WWISE Academy LMS",
       tagline: "Learning management system",
-      description: "Contributed to testing and extending an LMS, supporting large learner cohorts and practical, workplace-focused exercises.",
-      stack: ["Web", "QA", "LMS"],
+      description: "Now project owner of the LMS. Built a course preview so learners can read a module or two before committing to a purchase, redesigned the test-taking UI, and streamlined how content is uploaded.",
+      stack: ["Web", "UX", "UI", "Content pipeline", "LMS"],
       category: "Web",
       year: "2026",
+      links: {live: "https://wwiseacademy.com/Home"},
+      featured: true,
       accent: ["#15803d", "#4ade80"]
     },
     {
@@ -57,7 +60,7 @@ window.SITE = {
       stack: ["Java", "Android", "Laravel", "PHP", "CI/CD"],
       category: "Mobile",
       year: "2025",
-      // featured: true,
+      links: {live: "https://play.google.com/store/apps/details?id=com.hawkmobile.pedrosacademy&hl=en-US"},
       accent: ["#166534", "#d9a441"]
     },
     {
@@ -67,7 +70,6 @@ window.SITE = {
       stack: ["LLM", "RAG", "Python", "APIs"],
       category: "AI",
       year: "2021",
-      // featured: true,
       accent: ["#0d9488", "#a7f3d0"]
     },
     {
@@ -106,9 +108,10 @@ window.SITE = {
       company: "World Wide Industrial & Systems Engineers",
       place: "Johannesburg, Gauteng",
       points: [
-        "Led the technical roadmap: set priorities, allocated responsibilities and coordinated delivery across the team.",
-        "Built a substantial portion of the Proctor system plus a testing platform for AWS Cloud Practitioner and Microsoft SC-900 prep.",
-        "Contributed to LMS testing and expansion; built a social-media integration platform for GTICS aggregating multiple third-party APIs.",
+        "Built the WWISE Proctor system plus a testing platform for AWS Cloud Practitioner and Microsoft SC-900 prep.",
+        "Became project owner: built demo code that lets learners read a module or two before buying a course and revamped the UI for tests",
+        "Built a social-media integration platform for GTICS aggregating multiple third-party APIs.",
+        "Built the database and linking for certifications and verifying certicates from a business POV.",
         "Facilitated software development training for large learner cohorts with practical, workplace-focused exercises."
       ],
       tags: ["Leadership", "AWS", "Azure", "APIs", "Training"]

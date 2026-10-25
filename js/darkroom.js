@@ -219,17 +219,35 @@
   addEventListener("resize", () => { if ((w0 <= 760) !== (innerWidth <= 760)) { w0 = innerWidth; build(); } });
 
   // Public, non-fork GitHub repos join the pile automatically.
+  // Stack chips = every language GitHub detects (names only, biggest first).
+  const cached = (key) => { try { return JSON.parse(sessionStorage.getItem(key)); } catch { return null; } };
+  const stash = (key, val) => { try { sessionStorage.setItem(key, JSON.stringify(val)); } catch {} };
+  const languagesOf = (r) => {
+    const key = "langs:" + r.full_name + ":" + r.pushed_at, hit = cached(key);
+    if (hit) return Promise.resolve(hit);
+    return fetch(r.languages_url)
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
+      .then((bytes) => { const names = Object.keys(bytes).sort((x, y) => bytes[y] - bytes[x]); stash(key, names); return names; })
+      .catch(() => (r.language ? [r.language] : [])); // rate-limited or offline: fall back to the dominant language
+  };
+  const uniq = (list) => { const seen = new Set(); return list.filter((x) => { const k = x.toLowerCase(); return seen.has(k) ? false : seen.add(k); }); };
+
   fetch(`https://api.github.com/users/${S.githubUser}/repos?per_page=100&sort=pushed`)
     .then((r) => (r.ok ? r.json() : []))
     .then((repos) => {
       const mine = repos.filter((r) => !r.fork);
       if (!mine.length) return;
-      mine.forEach((r, i) => frames.push({
-        title: r.name, tagline: "GitHub repository", category: "GitHub", year: String(new Date(r.created_at).getFullYear()),
-        description: r.description || "A public repository on GitHub.", stack: [r.language, ...(r.topics || [])].filter(Boolean).slice(0, 5).length ? [r.language, ...(r.topics || [])].filter(Boolean).slice(0, 5) : ["Open source"],
-        accent: greens[i % greens.length], links: { repo: r.html_url, ...(r.homepage ? { live: r.homepage } : {}) }
-      }));
-      if (!loupe) build();
+      return Promise.all(mine.map(languagesOf)).then((langs) => {
+        mine.forEach((r, i) => {
+          const stack = uniq([...langs[i]]);
+          frames.push({
+            title: r.name, tagline: "GitHub repository", category: "GitHub", year: String(new Date(r.created_at).getFullYear()),
+            description: r.description || "A public repository on GitHub.", stack: stack.length ? stack : ["Open source"],
+            accent: greens[i % greens.length], links: { repo: r.html_url, ...(r.homepage ? { live: r.homepage } : {}) }
+          });
+        });
+        if (!loupe) build();
+      });
     })
     .catch(() => {});
 })();
