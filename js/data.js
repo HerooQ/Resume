@@ -1,15 +1,15 @@
-/* ------------------------------------------------------------------
+/* 
    All site content lives here. Edit this file to add projects,
    jobs, skills or certifications — no HTML changes needed.
 
-   Project fields (these become the prints in the Projects darkroom):
+   Project fields :
      title, tagline, description, stack[], category, year, featured
      links: { live: "https://…", repo: "https://github.com/…" }  (optional)
      accent: [colorA, colorB]  — gradient used for the card art
-------------------------------------------------------------------- */
+ */
 
 window.SITE = {
-  githubUser: "HerooQ",
+  githubUser: "Quban301",
   email: "Qhawemoyo1@gmail.com",
 
   roles: [
@@ -31,15 +31,6 @@ window.SITE = {
       category: "Web",
       year: "2026",
       accent: ["#1f9d55", "#a3e635"]
-    },
-    {
-      title: "Cloud Cert Prep Platform",
-      tagline: "AWS & Microsoft exam practice",
-      description: "An auxiliary testing platform that prepares students for the AWS Cloud Practitioner and Microsoft SC-900 (Security, Compliance & Identity Fundamentals) certification exams.",
-      stack: ["Web", "Assessments", "AWS", "Azure"],
-      category: "Web",
-      year: "2026",
-      accent: ["#0f766e", "#6ee7b7"]
     },
     {
       title: "GTICS Website",
@@ -147,7 +138,7 @@ window.SITE = {
       tags: ["Support", "Networking", "Adoption"]
     },
     {
-      date: "Apr 2021 — Dec 2024",
+      date: "Apr 2021 - Dec 2024",
       role: "Software Developer",
       company: "L&M Media Group",
       place: "Durban, KwaZulu-Natal",
@@ -160,7 +151,7 @@ window.SITE = {
       tags: ["PHP", "ASP.NET", "SQL", "Security"]
     },
     {
-      date: "Jun 2019 — Jan 2021",
+      date: "Jun 2019 - Jan 2021",
       role: "Software Developer",
       company: "Freelance",
       place: "Remote",

@@ -5,12 +5,12 @@
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-  /* ---------- Toast ---------- */
+  /*  Toast  */
   const toast = $("#toast");
   let toastT;
   const say = (msg) => { toast.textContent = msg; toast.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => toast.classList.remove("show"), 2200); };
 
-  /* ---------- Theme: starts light; switching detonates from the button ---------- */
+  /*  Theme: starts dark; switching detonates from the button  */
   const root = document.documentElement;
   let netColor = null; // cached accent for the canvas, reset whenever the theme changes
   const setTheme = (t) => { root.dataset.theme = t; netColor = null; };
@@ -51,7 +51,7 @@
   };
   $("#themeBtn").addEventListener("click", toggleTheme);
 
-  /* ---------- Render: experience, skills, certs ---------- */
+  /*  Render: experience, skills, certs  */
   $("#timeline").innerHTML = S.experience.map((j) => `<article class="job reveal">
     <span class="job-date">${esc(j.date)}</span><h3>${esc(j.role)}</h3>
     <p class="company"><b>${esc(j.company)}</b> · ${esc(j.place)}</p>
@@ -66,7 +66,7 @@
   $("#certs").innerHTML = S.certifications.map((c) => `<div class="cert"><i>✓</i><span>${esc(c)}</span></div>`).join("");
   $("#year").textContent = new Date().getFullYear();
 
-  /* ---------- Reveal on scroll + counters ---------- */
+  /*  Reveal on scroll + counters */
   const countUp = (el) => {
     const end = +el.dataset.count, suf = el.dataset.suffix || "", t0 = performance.now(), dur = 1400;
     if (reduced) { el.textContent = end + suf; return; }
@@ -81,7 +81,7 @@
   }), { threshold: .12 });
   $$(".reveal").forEach((el) => io.observe(el));
 
-  /* ---------- Typed roles ---------- */
+  /* Typed roles */
   const typed = $("#typed");
   if (reduced) typed.textContent = S.roles[0];
   else {
@@ -97,7 +97,7 @@
     step();
   }
 
-  /* ---------- Nav: scroll state, progress, active link, mobile ---------- */
+  /* Nav: scroll state, progress, active link, mobile */
   const nav = $("#nav"), bar = $("#progress"), links = $$("#navLinks a");
   const sections = links.map((a) => $(a.getAttribute("href")));
   const onScroll = () => {
@@ -114,13 +114,13 @@
   burger.addEventListener("click", () => { const o = $("#navLinks").classList.toggle("open"); burger.setAttribute("aria-expanded", o); });
   links.forEach((a) => a.addEventListener("click", closeMenu));
 
-  /* ---------- Cursor glow ---------- */
+  /* Cursor glow */
   const glow = $("#cursorGlow");
   let gx = 0, gy = 0, tx = 0, ty = 0;
   addEventListener("pointermove", (e) => { tx = e.clientX; ty = e.clientY; glow.classList.add("on"); }, { passive: true });
   (function loop() { gx += (tx - gx) * .12; gy += (ty - gy) * .12; glow.style.transform = `translate(${gx}px,${gy}px)`; requestAnimationFrame(loop); })();
 
-  /* ---------- Card spotlight + 3D tilt + magnetic buttons ---------- */
+  /* Card spotlight + 3D tilt + magnetic buttons*/
   document.addEventListener("pointermove", (e) => {
     const card = e.target.closest(".bento .card");
     if (card) { const r = card.getBoundingClientRect(); card.style.setProperty("--mx", e.clientX - r.left + "px"); card.style.setProperty("--my", e.clientY - r.top + "px"); }
@@ -136,7 +136,7 @@
     });
   }
 
-  /* ---------- Network canvas: fixed behind the whole page ---------- */
+  /* Network canvas: fixed behind the whole page */
   const cv = $("#network"), ctx = cv.getContext("2d");
   let W, H, pts = [], mouse = { x: -999, y: -999 }, hidden = document.hidden;
   const accent = () => netColor || (netColor = getComputedStyle(root).getPropertyValue("--net").trim() || "#2f8f4e");
@@ -171,11 +171,11 @@
   }
   draw();
 
-  /* ---------- Contact: copy email ---------- */
+  /*  Contact: copy email */
   const copyEmail = () => (navigator.clipboard ? navigator.clipboard.writeText(S.email) : Promise.reject()).then(() => say("Email copied ✓"), () => say(S.email));
   $("#copyEmail").addEventListener("click", copyEmail);
 
-  /* ---------- Command palette ---------- */
+  /* Command palette */
   const pal = $("#palette"), inp = $("#paletteInput"), list = $("#paletteList");
   const go = (id) => () => { const el = $(id); el && el.scrollIntoView({ behavior: reduced ? "auto" : "smooth" }); };
   const cmds = [
