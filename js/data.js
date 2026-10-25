@@ -66,7 +66,7 @@ window.SITE = {
       stack: ["Java", "Android", "Laravel", "PHP", "CI/CD"],
       category: "Mobile",
       year: "2025",
-      featured: true,
+      // featured: true,
       accent: ["#166534", "#d9a441"]
     },
     {
@@ -76,7 +76,7 @@ window.SITE = {
       stack: ["LLM", "RAG", "Python", "APIs"],
       category: "AI",
       year: "2021",
-      featured: true,
+      // featured: true,
       accent: ["#0d9488", "#a7f3d0"]
     },
     {
@@ -154,7 +154,7 @@ window.SITE = {
       points: [
         "Designed and maintained web and mobile solutions; built backend services, APIs, databases and third-party integrations.",
         "Resolved hardware/software issues with a 95% success rate within 24 hours.",
-        "Implemented firewalls, encryption and security best practice — vulnerabilities down 30%.",
+        "Implemented firewalls, encryption and security best practice... vulnerabilities down 30%.",
         "Client training and support lifted application adoption by 25%; led a team of five developers to meet tight deadlines."
       ],
       tags: ["PHP", "ASP.NET", "SQL", "Security"]
