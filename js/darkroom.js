@@ -42,7 +42,7 @@
     return b;
   };
 
-  /* ================= darkroom (scroll-driven) ================= */
+  /* darkroom (scroll-driven) */
   let cleanup = null;
   function build() {
     if (cleanup) cleanup();
@@ -127,7 +127,7 @@
     cleanup = () => { io.disconnect(); ro.disconnect(); cancelAnimationFrame(raf); };
   }
 
-  /* ================= loupe (lightbox) ================= */
+  /* loupe (lightbox) */
   let loupe = null;
   const icon = (d) => `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
   const stageRect = () => {
@@ -213,7 +213,7 @@
     e.preventDefault(); e.stopPropagation();
   }, true);
 
-  /* ================= go ================= */
+  /* go  */
   build();
   let w0 = innerWidth;
   addEventListener("resize", () => { if ((w0 <= 760) !== (innerWidth <= 760)) { w0 = innerWidth; build(); } });
