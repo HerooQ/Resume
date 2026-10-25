@@ -30,7 +30,6 @@ window.SITE = {
       stack: ["Web", "Backend", "Databases"],
       category: "Web",
       year: "2026",
-      featured: true,
       accent: ["#1f9d55", "#a3e635"]
     },
     {
@@ -104,7 +103,7 @@ window.SITE = {
       description: "Identified gaps in security practices at L&M Media Group and implemented firewalls and encryption, reducing vulnerabilities by 30%.",
       stack: ["Cybersecurity", "Encryption", "Networking"],
       category: "Security",
-      year: "2021–24",
+      year: "2021-24",
       accent: ["#14532d", "#d4a373"]
     },
   ],
@@ -137,7 +136,7 @@ window.SITE = {
       tags: ["Laravel", "Java", "CI/CD", "RAG", "Architecture"]
     },
     {
-      date: "Jan 2025 — Jul 2025",
+      date: "Jan 2025 - Jul 2025",
       role: "IT Technician",
       company: "KZN Office of the Premier",
       place: "Durban, KwaZulu-Natal",
