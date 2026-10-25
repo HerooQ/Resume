@@ -182,7 +182,7 @@ window.SITE = {
     { group: "Backend & APIs", items: ["Software Architecture", "RESTful API Design & Integration", "Laravel / PHP", "ASP.NET Core", "Database Design & Optimization"] },
     { group: "Cloud & DevOps", items: ["CI/CD & DevOps", "Cloud Computing", "System Integration", "Performance Optimization"] },
     { group: "AI", items: ["AI / LLM Integration", "RAG Pipelines"] },
-    { group: "Craft & Leadership", items: ["Legacy Modernization", "Code Review & Mentorship", "Agile Development"] }
+    { group: "Craft & Leadership", items: ["Legacy Modernization", "Code Review & Mentorship", "Agile Development", "Product Ownership"] }
   ],
 
   certifications: [
